@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_11oun6e" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <decision id="Decision_1tsiv5n" name="Company Validation">
+    <informationRequirement id="InformationRequirement_16x8dka">
+      <requiredInput href="#InputData_1yk3b8x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1tvax8c">
+      <requiredInput href="#InputData_0eoasou" />
+    </informationRequirement>
+    <authorityRequirement id="AuthorityRequirement_18yjd2d">
+      <requiredAuthority href="#KnowledgeSource_0dljovy" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_174e2xx" hitPolicy="FIRST" biodi:annotationsWidth="400">
+      <input id="Input_1" label="Positive balance" biodi:width="150">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1uwwxm2" label="Negative blacklist" biodi:width="150">
+        <inputExpression id="LiteralExpression_0dr7k5n" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Able to lease" typeRef="boolean" biodi:width="150" />
+      <rule id="DecisionRule_1hdl0f1">
+        <description>the company is negative blacklisted</description>
+        <inputEntry id="UnaryTests_0r7onew">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1syw7i6">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00x7o5j">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qwhfb6">
+        <description>the company does not have positive balance</description>
+        <inputEntry id="UnaryTests_10masju">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16xzdkw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1l42rej">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hjkc7c">
+        <inputEntry id="UnaryTests_19e1774">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rkraoa">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1iap9jp">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0xffx7a">
+        <inputEntry id="UnaryTests_0ksaici">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1149ya9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1eboz54">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16sm016">
+        <inputEntry id="UnaryTests_0hu08vb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1861ky4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0t4g8ug">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1yk3b8x" name="Negative blacklist" />
+  <inputData id="InputData_0eoasou" name="Positive balance" />
+  <knowledgeSource id="KnowledgeSource_0dljovy" name="Able to lease" />
+  <textAnnotation id="TextAnnotation_1y8f9kk">
+    <text>Ministry of Justice</text>
+  </textAnnotation>
+  <association id="Association_0bmfwp0">
+    <sourceRef href="#TextAnnotation_1y8f9kk" />
+    <targetRef href="#InputData_0eoasou" />
+  </association>
+  <textAnnotation id="TextAnnotation_0yafrf0">
+    <text>Central Credit Information System</text>
+  </textAnnotation>
+  <association id="Association_1jquewl">
+    <sourceRef href="#TextAnnotation_0yafrf0" />
+    <targetRef href="#InputData_1yk3b8x" />
+  </association>
+  <textAnnotation id="TextAnnotation_0zu5mr9">
+    <text>Leasing company</text>
+  </textAnnotation>
+  <association id="Association_1j1d734">
+    <sourceRef href="#TextAnnotation_0zu5mr9" />
+    <targetRef href="#KnowledgeSource_0dljovy" />
+  </association>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_1tsiv5n">
+        <dc:Bounds height="80" width="180" x="300" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1kdhanc" dmnElementRef="InputData_1yk3b8x">
+        <dc:Bounds height="45" width="125" x="337" y="247" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0pjotzl" dmnElementRef="InformationRequirement_16x8dka">
+        <di:waypoint x="400" y="247" />
+        <di:waypoint x="420" y="180" />
+        <di:waypoint x="420" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1t65i82" dmnElementRef="InputData_0eoasou">
+        <dc:Bounds height="45" width="125" x="167" y="247" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0v70h1d" dmnElementRef="InformationRequirement_1tvax8c">
+        <di:waypoint x="230" y="247" />
+        <di:waypoint x="360" y="180" />
+        <di:waypoint x="360" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1bg8s4c" dmnElementRef="KnowledgeSource_0dljovy">
+        <dc:Bounds height="63" width="100" x="500" y="238" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_069k782" dmnElementRef="AuthorityRequirement_18yjd2d">
+        <di:waypoint x="500" y="258" />
+        <di:waypoint x="480" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0i4atid" dmnElementRef="TextAnnotation_1y8f9kk">
+        <dc:Bounds height="40" width="150" x="155" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1bbhzw7" dmnElementRef="Association_0bmfwp0">
+        <di:waypoint x="156" y="370" />
+        <di:waypoint x="200" y="299" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1ieakw4" dmnElementRef="TextAnnotation_0yafrf0">
+        <dc:Bounds height="40" width="150" x="335" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1yrnbzo" dmnElementRef="Association_1jquewl">
+        <di:waypoint x="380" y="370" />
+        <di:waypoint x="405" y="292" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_13l81u3" dmnElementRef="TextAnnotation_0zu5mr9">
+        <dc:Bounds height="40" width="110" x="505" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1bq4f7s" dmnElementRef="Association_1j1d734">
+        <di:waypoint x="559" y="370" />
+        <di:waypoint x="544" y="301" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

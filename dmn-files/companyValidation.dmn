@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_11oun6e" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <decision id="Decision_1tsiv5n" name="Company Validation">
+    <informationRequirement id="InformationRequirement_1jjd4pq">
+      <requiredInput href="#InputData_1qgqss1" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_16x8dka">
+      <requiredInput href="#InputData_1yk3b8x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_065xilq">
+      <requiredInput href="#InputData_1u60nkt" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1f5ojqj">
+      <requiredInput href="#InputData_1u1lj7u" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1tvax8c">
+      <requiredInput href="#InputData_0eoasou" />
+    </informationRequirement>
+    <authorityRequirement id="AuthorityRequirement_18yjd2d">
+      <requiredAuthority href="#KnowledgeSource_0dljovy" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_174e2xx" hitPolicy="FIRST" biodi:annotationsWidth="400">
+      <input id="Input_1" label="Positive balance" biodi:width="150">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1uwwxm2" label="Negative blacklist" biodi:width="150">
+        <inputExpression id="LiteralExpression_0dr7k5n" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0jn4bzg" label="Number of closed financial years" biodi:width="150">
+        <inputExpression id="LiteralExpression_1p8zq8q" typeRef="integer">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0qiww71" label="Annual balance sheet and income statement" biodi:width="150">
+        <inputExpression id="LiteralExpression_1umg72s" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1w3rxxk" label="Equity" biodi:width="150">
+        <inputExpression id="LiteralExpression_02u81qm" typeRef="integer">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Able to lease" typeRef="boolean" biodi:width="150" />
+      <rule id="DecisionRule_1hdl0f1">
+        <description>the company is negative blacklisted</description>
+        <inputEntry id="UnaryTests_0r7onew">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1syw7i6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1evd62b">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0klb8pj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mhjt6l">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00x7o5j">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qwhfb6">
+        <description>the company does not have positive balance</description>
+        <inputEntry id="UnaryTests_10masju">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16xzdkw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1grafdh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09wipi6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11mr41i">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1l42rej">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o4q1s1">
+        <description>the company does not have at least one closed financial year</description>
+        <inputEntry id="UnaryTests_1yhy667">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a8h1fi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rlxm3p">
+          <text>&lt; 1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nhchr4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c4dsag">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0sg60j9">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16kzhfd">
+        <description>the company did not submit a valid income statement</description>
+        <inputEntry id="UnaryTests_0bse07r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1iprr58">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13d9kx3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0x5d6qm">
+          <text>"INVALID"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19yueo6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1gkmdmz">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jg94c9">
+        <description>the company's equity is too low</description>
+        <inputEntry id="UnaryTests_0x2af4a">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0m8mfg3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_039u7g8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_122ygzn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oz1p1i">
+          <text>&lt; 800000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1fgi6pa">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wr3tlv">
+        <inputEntry id="UnaryTests_1k8pd1p">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i62jqe">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fbjprw">
+          <text>[1..2[</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qmo3pl">
+          <text>"VALID"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a2gubh">
+          <text>&gt;= 1600000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qlsfzy">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hjkc7c">
+        <inputEntry id="UnaryTests_19e1774">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rkraoa">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05mzw7o">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1smbgwq">
+          <text>"VALID"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hj4kru">
+          <text>&gt;= 800000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1iap9jp">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1qgqss1" name="Number of closed financial years" />
+  <inputData id="InputData_1yk3b8x" name="Negative blacklist" />
+  <inputData id="InputData_1u60nkt" name="Equity" />
+  <inputData id="InputData_1u1lj7u" name="Annual balance sheet and income statement" />
+  <inputData id="InputData_0eoasou" name="Positive balance" />
+  <knowledgeSource id="KnowledgeSource_0dljovy" name="Able to lease" />
+  <textAnnotation id="TextAnnotation_1y8f9kk">
+    <text>Ministry of Justice</text>
+  </textAnnotation>
+  <association id="Association_0bmfwp0">
+    <sourceRef href="#TextAnnotation_1y8f9kk" />
+    <targetRef href="#InputData_0eoasou" />
+  </association>
+  <textAnnotation id="TextAnnotation_1phn0bl">
+    <text>National tax office</text>
+  </textAnnotation>
+  <association id="Association_03u05ts">
+    <sourceRef href="#TextAnnotation_1phn0bl" />
+    <targetRef href="#InputData_1qgqss1" />
+  </association>
+  <textAnnotation id="TextAnnotation_0yafrf0">
+    <text>Central Credit Information System</text>
+  </textAnnotation>
+  <association id="Association_1jquewl">
+    <sourceRef href="#TextAnnotation_0yafrf0" />
+    <targetRef href="#InputData_1yk3b8x" />
+  </association>
+  <textAnnotation id="TextAnnotation_0zu5mr9">
+    <text>Company; Leasing company</text>
+  </textAnnotation>
+  <association id="Association_1j1d734">
+    <sourceRef href="#TextAnnotation_0zu5mr9" />
+    <targetRef href="#KnowledgeSource_0dljovy" />
+  </association>
+  <textAnnotation id="TextAnnotation_1owx374">
+    <text>Company Information Service</text>
+  </textAnnotation>
+  <association id="Association_0doxehl">
+    <sourceRef href="#TextAnnotation_1owx374" />
+    <targetRef href="#InputData_1u1lj7u" />
+  </association>
+  <textAnnotation id="TextAnnotation_0tv3uew">
+    <text>National Bank</text>
+  </textAnnotation>
+  <association id="Association_1342a0n">
+    <sourceRef href="#TextAnnotation_0tv3uew" />
+    <targetRef href="#InputData_1u60nkt" />
+  </association>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_1tsiv5n">
+        <dc:Bounds height="80" width="180" x="220" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0bzj1bb" dmnElementRef="InputData_1qgqss1">
+        <dc:Bounds height="45" width="125" x="307" y="267" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0m0bpcq" dmnElementRef="InformationRequirement_1jjd4pq">
+        <di:waypoint x="370" y="267" />
+        <di:waypoint x="310" y="200" />
+        <di:waypoint x="310" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1kdhanc" dmnElementRef="InputData_1yk3b8x">
+        <dc:Bounds height="45" width="125" x="467" y="267" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0pjotzl" dmnElementRef="InformationRequirement_16x8dka">
+        <di:waypoint x="530" y="267" />
+        <di:waypoint x="370" y="200" />
+        <di:waypoint x="370" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0kkbktc" dmnElementRef="InputData_1u60nkt">
+        <dc:Bounds height="45" width="125" x="427" y="337" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1mrrds0" dmnElementRef="InformationRequirement_065xilq">
+        <di:waypoint x="490" y="337" />
+        <di:waypoint x="340" y="200" />
+        <di:waypoint x="340" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0sezi3c" dmnElementRef="InputData_1u1lj7u">
+        <dc:Bounds height="45" width="125" x="227" y="337" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1sta4eh" dmnElementRef="InformationRequirement_1f5ojqj">
+        <di:waypoint x="290" y="337" />
+        <di:waypoint x="280" y="200" />
+        <di:waypoint x="280" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1t65i82" dmnElementRef="InputData_0eoasou">
+        <dc:Bounds height="45" width="125" x="157" y="267" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0v70h1d" dmnElementRef="InformationRequirement_1tvax8c">
+        <di:waypoint x="220" y="267" />
+        <di:waypoint x="250" y="200" />
+        <di:waypoint x="250" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1bg8s4c" dmnElementRef="KnowledgeSource_0dljovy">
+        <dc:Bounds height="63" width="100" x="450" y="78" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_069k782" dmnElementRef="AuthorityRequirement_18yjd2d">
+        <di:waypoint x="450" y="98" />
+        <di:waypoint x="400" y="140" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0i4atid" dmnElementRef="TextAnnotation_1y8f9kk">
+        <dc:Bounds height="40" width="150" x="155" y="440" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1bbhzw7" dmnElementRef="Association_0bmfwp0">
+        <di:waypoint x="156" y="440" />
+        <di:waypoint x="190" y="319" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0044en4" dmnElementRef="TextAnnotation_1phn0bl">
+        <dc:Bounds height="40" width="117" x="411" y="440" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1azttzv" dmnElementRef="Association_03u05ts">
+        <di:waypoint x="446" y="440" />
+        <di:waypoint x="378" y="312" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1ieakw4" dmnElementRef="TextAnnotation_0yafrf0">
+        <dc:Bounds height="40" width="150" x="595" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1yrnbzo" dmnElementRef="Association_1jquewl">
+        <di:waypoint x="640" y="370" />
+        <di:waypoint x="535" y="312" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_13l81u3" dmnElementRef="TextAnnotation_0zu5mr9">
+        <dc:Bounds height="40" width="110" x="595" y="200" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1bq4f7s" dmnElementRef="Association_1j1d734">
+        <di:waypoint x="649" y="200" />
+        <di:waypoint x="494" y="141" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0d6f76x" dmnElementRef="TextAnnotation_1owx374">
+        <dc:Bounds height="40" width="130" x="275" y="440" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0857l12" dmnElementRef="Association_0doxehl">
+        <di:waypoint x="323" y="440" />
+        <di:waypoint x="293" y="382" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_124ekd3" dmnElementRef="TextAnnotation_0tv3uew">
+        <dc:Bounds height="40" width="100" x="550" y="440" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_01645f8" dmnElementRef="Association_1342a0n">
+        <di:waypoint x="598" y="440" />
+        <di:waypoint x="493" y="382" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

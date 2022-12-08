@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_09jmttg" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <decision id="Decision_1h5egav" name="XOR table">
+    <informationRequirement id="InformationRequirement_0f78nu1">
+      <requiredInput href="#InputData_1fv9o3j" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0vxj70i">
+      <requiredInput href="#InputData_1l12fzp" />
+    </informationRequirement>
+    <authorityRequirement id="AuthorityRequirement_0q4q6mq">
+      <requiredAuthority href="#KnowledgeSource_1xdlhw2" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_0aen4ob" hitPolicy="COLLECT">
+      <input id="Input_1" label="A">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0awwh26" label="B">
+        <inputExpression id="LiteralExpression_1t8yxbd" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Result" typeRef="boolean" />
+      <rule id="DecisionRule_07gkzfn">
+        <inputEntry id="UnaryTests_06iptwo">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o35wyd">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h2ho8g">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1mpl2vc">
+        <inputEntry id="UnaryTests_0otomqs">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1b38yex">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wto68w">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0tvd06b">
+        <inputEntry id="UnaryTests_0jiiiqm">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_179l25w">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zicplb">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zvfc1d">
+        <inputEntry id="UnaryTests_1aeozm0">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qykiu0">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_035m4s1">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <knowledgeSource id="KnowledgeSource_1xdlhw2" name="Result" />
+  <inputData id="InputData_1fv9o3j" name="A" />
+  <inputData id="InputData_1l12fzp" name="B" />
+  <textAnnotation id="TextAnnotation_0528nvo">
+    <text>Org1</text>
+  </textAnnotation>
+  <association id="Association_0uzqn1c">
+    <sourceRef href="#TextAnnotation_0528nvo" />
+    <targetRef href="#KnowledgeSource_1xdlhw2" />
+  </association>
+  <textAnnotation id="TextAnnotation_1huv5su">
+    <text>Org3</text>
+  </textAnnotation>
+  <association id="Association_0d0vr8h">
+    <sourceRef href="#TextAnnotation_1huv5su" />
+    <targetRef href="#InputData_1l12fzp" />
+  </association>
+  <textAnnotation id="TextAnnotation_0of57zb">
+    <text>Org2</text>
+  </textAnnotation>
+  <association id="Association_1rsuitt">
+    <sourceRef href="#TextAnnotation_0of57zb" />
+    <targetRef href="#InputData_1fv9o3j" />
+  </association>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_1h5egav">
+        <dc:Bounds height="80" width="180" x="320" y="110" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_064bd65" dmnElementRef="KnowledgeSource_1xdlhw2">
+        <dc:Bounds height="63" width="100" x="570" y="250" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1m9zbk6" dmnElementRef="InputData_1fv9o3j">
+        <dc:Bounds height="45" width="125" x="168" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0a0sqcd" dmnElementRef="InputData_1l12fzp">
+        <dc:Bounds height="45" width="125" x="348" y="261" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_008wbzc" dmnElementRef="InformationRequirement_0f78nu1">
+        <di:waypoint x="231" y="260" />
+        <di:waypoint x="380" y="210" />
+        <di:waypoint x="380" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1wo1wa6" dmnElementRef="InformationRequirement_0vxj70i">
+        <di:waypoint x="411" y="261" />
+        <di:waypoint x="440" y="210" />
+        <di:waypoint x="440" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0qvhuk1" dmnElementRef="AuthorityRequirement_0q4q6mq">
+        <di:waypoint x="593" y="250" />
+        <di:waypoint x="500" y="140" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0s3wval" dmnElementRef="TextAnnotation_0528nvo">
+        <dc:Bounds height="40" width="100" x="630" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_09bkwz4" dmnElementRef="Association_0uzqn1c">
+        <di:waypoint x="664" y="390" />
+        <di:waypoint x="633" y="313" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0oejz3e" dmnElementRef="TextAnnotation_1huv5su">
+        <dc:Bounds height="40" width="100" x="390" y="370" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0f2ro1w" dmnElementRef="Association_0d0vr8h">
+        <di:waypoint x="431" y="370" />
+        <di:waypoint x="416" y="306" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0b4mu6a" dmnElementRef="TextAnnotation_0of57zb">
+        <dc:Bounds height="60" width="100" x="160" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_10h3557" dmnElementRef="Association_1rsuitt">
+        <di:waypoint x="218" y="350" />
+        <di:waypoint x="227" y="305" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

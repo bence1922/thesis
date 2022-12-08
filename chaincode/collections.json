@@ -1,0 +1,110 @@
+[
+	{
+			"name": "Org1MSP_PrivateCollection",
+			"policy": "OR('Org1MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": true,
+			"memberOnlyWrite": true,
+			"endorsementPolicy": {
+					"majority": "OR('Org1MSP.member')"
+			}
+	},
+	{
+			"name": "Org1MSP_PermissionedCollection",
+			"policy": "OR('Org1MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": false,
+			"memberOnlyWrite": false,
+			"endorsementPolicy": {
+					"majority": "OR('Org1MSP.member')"
+			}
+	},
+	{
+			"name": "Org1MSP_ModifiableCollection",
+			"policy": "OR('Org1MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": true,
+			"memberOnlyWrite": false,
+			"endorsementPolicy": {
+					"majority": "OR('Org1MSP.member')"
+			}
+	},
+	{
+			"name": "Org2MSP_PrivateCollection",
+			"policy": "OR('Org2MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": true,
+			"memberOnlyWrite": true,
+			"endorsementPolicy": {
+					"majority": "OR('Org2MSP.member')"
+			}
+	},
+	{
+			"name": "Org2MSP_PermissionedCollection",
+			"policy": "OR('Org2MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": false,
+			"memberOnlyWrite": false,
+			"endorsementPolicy": {
+					"majority": "OR('Org2MSP.member')"
+			}
+	},
+	{
+			"name": "Org2MSP_ModifiableCollection",
+			"policy": "OR('Org2MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": true,
+			"memberOnlyWrite": false,
+			"endorsementPolicy": {
+					"majority": "OR('Org2MSP.member')"
+			}
+	},
+	{
+			"name": "Org3MSP_PrivateCollection",
+			"policy": "OR('Org3MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": true,
+			"memberOnlyWrite": true,
+			"endorsementPolicy": {
+					"majority": "OR('Org3MSP.member')"
+			}
+	},
+	{
+			"name": "Org3MSP_PermissionedCollection",
+			"policy": "OR('Org3MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": false,
+			"memberOnlyWrite": false,
+			"endorsementPolicy": {
+					"majority": "OR('Org3MSP.member')"
+			}
+	},
+	{
+			"name": "Org3MSP_ModifiableCollection",
+			"policy": "OR('Org3MSP.member')",
+			"requiredPeerCount": 0,
+			"maxPeerCount": 1,
+			"blockToLive": 0,
+			"memberOnlyRead": true,
+			"memberOnlyWrite": false,
+			"endorsementPolicy": {
+					"majority": "OR('Org3MSP.member')"
+			}
+	}
+]
