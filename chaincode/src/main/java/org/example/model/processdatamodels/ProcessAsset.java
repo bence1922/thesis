@@ -22,17 +22,17 @@ public class ProcessAsset {
     @Property()
     private String processOwnerOrganization;
 
-    @Property 
-    private int reamainingInputCount;
+    @Property()
+    private int remainingInputCount;
 
     public ProcessAsset(@JsonProperty("processId") String processId, @JsonProperty("status") String status,
-            @JsonProperty("processOwnerOrganization") String processOwnerOrganization, @JsonProperty("reamainingInputCount") int reamainingInputCount,
+            @JsonProperty("processOwnerOrganization") String processOwnerOrganization, @JsonProperty("remainingInputCount") int remainingInputCount,
             @JsonProperty("decisionId") String decisionId){
         this.processId = processId;
         this.status = status;
         this.processOwnerOrganization = processOwnerOrganization;
         this.decisionId = decisionId;
-        this.reamainingInputCount = reamainingInputCount;
+        this.remainingInputCount = remainingInputCount;
     }
 
     public byte[] serialize() {
@@ -42,6 +42,12 @@ public class ProcessAsset {
 
     public String toJSONString() {
         return new JSONObject(this).toString();
+    }
+
+    public void decreaseRemaining(){
+        remainingInputCount--;
+        if (remainingInputCount == 0)
+            status = "decision done";
     }
 
     //#region getters, setters
@@ -72,12 +78,12 @@ public class ProcessAsset {
         this.processOwnerOrganization = processOwnerOrganization;
     }
 
-    public int getReamainingInputCount() {
-        return reamainingInputCount;
+    public int getremainingInputCount() {
+        return remainingInputCount;
     }
 
-    public void setReamainingInputCount(int reamainingInputCount) {
-        this.reamainingInputCount = reamainingInputCount;
+    public void setremainingInputCount(int remainingInputCount) {
+        this.remainingInputCount = remainingInputCount;
     }
 
     public String getDecisionId() {

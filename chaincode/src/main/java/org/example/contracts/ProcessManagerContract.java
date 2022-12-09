@@ -52,7 +52,7 @@ public class ProcessManagerContract implements ContractInterface {
         List<String> participants = decisionAsset.getParticipants();
         ProcessAsset processAsset = new ProcessAsset(processId, "started", ownerOrganizationMSP, decisionAsset.getInputs().size(), decisionId);
         ctx.getStub().putPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Permissioned),processId, processAsset.serialize());
-        processAsset.setReamainingInputCount(1);
+        processAsset.setremainingInputCount(1);
         processAsset.setStatus("input data required");
         for (String organization : participants) {
             ctx.getStub().putPrivateData(CollectionManager.getCollectionNameWithOrgMSP(organization, PermissionLevels.Modifiable), processId, processAsset.serialize());
@@ -71,52 +71,100 @@ public class ProcessManagerContract implements ContractInterface {
 
     @Transaction()
     public void addInputData(Context ctx, String processId, String inputId, String value) {
-        ProcessAsset processAsset = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Permissioned), processId),ProcessAsset.class);
+        ProcessAsset processAsset = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Private), processId),ProcessAsset.class);
         String[] args = {"getPermission", processAsset.getDecisionId(), inputId, CollectionManager.getOrgMSPFromContext(ctx), "addInput"};
         Response res = ctx.getStub().invokeChaincodeWithStringArgs("permissioncc", args);
         if(!res.getPayload().toString().equals("ok"))
             throw new RuntimeException("Permission denied");
-
         PrivateInputValueAsset privateValueAsset = new PrivateInputValueAsset(value);
+        if(assetExists(ctx, processId, CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Private)) || processAsset.getStatus().equals("decision done"))
+            throw new RuntimeException("The input has already provided");
         ctx.getStub().putPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Private), processId, privateValueAsset.serialize());
+        ProcessAsset processAssetOverall = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameWithOrgMSP(processAsset.getProcessOwnerOrganization(), PermissionLevels.Permissioned), processId),ProcessAsset.class);
+        processAssetOverall.decreaseRemaining();
         InputMetaDataAsset inputMetaDataAsset = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Modifiable), processAsset.getDecisionId()), InputMetaDataAsset.class);
         String decisionOwner = inputMetaDataAsset.getDecisionOwnerMSP();
         DecisionAsset decisionAsset = decisionManagerContract.readDecisionAsset(ctx, processAsset.getDecisionId(), CollectionManager.getCollectionNameWithOrgMSP(decisionOwner,PermissionLevels.Permissioned ));
         List<Integer> result = decisionAsset.evaluate(inputId, value);
         ResultAsset resultAsset = new ResultAsset(result);
+        processAsset.decreaseRemaining();
         ctx.getStub().putPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Permissioned), processId, resultAsset.toJSONString());
     }
 
     @Transaction()
-    public String calculateOutput(Context ctx, String processId, String outputId) {
-        ProcessAsset processAsset = readProcessAsset(ctx, processId, CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Permissioned));
-        String[] args = {"getPermission", processAsset.getDecisionId(), outputId, CollectionManager.getOrgMSPFromContext(ctx), "calculateOutput"};
-        Response res = ctx.getStub().invokeChaincodeWithStringArgs("permissioncc", args);
-        if(!res.getPayload().toString().equals("ok"))
-            throw new RuntimeException("Permission denied");
-
-        DecisionAsset decisionAsset = decisionManagerContract.readDecisionAsset(ctx, processAsset.getDecisionId(), CollectionManager.getCollectionNameWithOrgMSP(processAsset.getProcessOwnerOrganization(), PermissionLevels.Permissioned));
-        List<Integer> results = new ArrayList<>();
-        int i = 0;
-        for (String participant : decisionAsset.getParticipants()) {
-            List<Integer> result = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameWithOrgMSP(participant, PermissionLevels.Permissioned), processId), ResultAsset.class).getResult();
-            if(i == 0){
-                results.addAll(result);
-            }
-           else {
-                for (Integer rowNumber : results) {
-                    if(!result.contains(rowNumber))
-                        results.remove(rowNumber);
+    public void calculateOutput(Context ctx, String processId, String outputId) {
+        try {
+            ProcessAsset processAsset = readProcessAsset(ctx, processId, CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Permissioned));
+            String[] args = {"getPermission", processAsset.getDecisionId(), outputId, CollectionManager.getOrgMSPFromContext(ctx), "calculateOutput"};
+            Response res = ctx.getStub().invokeChaincodeWithStringArgs("permissioncc", args);
+            if(!res.getPayload().toString().equals("ok"))
+                throw new RuntimeException("Permission denied");
+            ProcessAsset processAssetOverall = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameWithOrgMSP(processAsset.getProcessOwnerOrganization(), PermissionLevels.Permissioned), processId),ProcessAsset.class);
+            if (!processAssetOverall.getStatus().equals("decision done")) 
+                throw new RuntimeException("Missing input(s)");
+            DecisionAsset decisionAsset = decisionManagerContract.readDecisionAsset(ctx, processAsset.getDecisionId(), CollectionManager.getCollectionNameWithOrgMSP(processAsset.getProcessOwnerOrganization(), PermissionLevels.Permissioned));
+            List<Integer> results = new ArrayList<>();
+            int i = 0;
+            for (String participant : decisionAsset.getParticipants()) {
+                List<Integer> result = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameWithOrgMSP(participant, PermissionLevels.Permissioned), processId), ResultAsset.class).getResult();
+                if(i == 0){
+                    results.addAll(result);
                 }
-           }
+                else {
+                    for (Integer rowNumber : results) {
+                        if(!result.contains(rowNumber))
+                            results.remove(rowNumber);
+                    }
+                }
+            }
+            PrivateInputValueAsset privAsset = new PrivateInputValueAsset(results.toString());
+            ctx.getStub().putPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Private), processId, privAsset.serialize());
+        
+        } catch (Exception e) {
+            System.out.println("=====ERROR===== " + e.toString() + " =====ERROR=====");
         }
-        return decisionAsset.getOutput(results, outputId);
     }
 
     @Transaction()
-    public ProcessAsset readProcessAsset(Context ctx, String processAssetId, String collectionName) {
+    public String getOutput(Context ctx, String processId, String outputId) {
+        try {
+            ProcessAsset processAsset = readProcessAsset(ctx, processId, CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Permissioned));
+            String[] args = {"getPermission", processAsset.getDecisionId(), outputId, CollectionManager.getOrgMSPFromContext(ctx), "calculateOutput"};
+            Response res = ctx.getStub().invokeChaincodeWithStringArgs("permissioncc", args);
+            if(!res.getPayload().toString().equals("ok"))
+                throw new RuntimeException("Permission denied");
+            PrivateInputValueAsset asset = genson.deserialize(ctx.getStub().getPrivateData(CollectionManager.getCollectionNameFromContext(ctx, PermissionLevels.Private), processId),PrivateInputValueAsset.class);
+            return asset.getValue();
+        } catch (Exception e) {
+            System.out.println("=====ERROR===== " + e.toString() + " =====ERROR=====");
+            return e.toString();
+        }
+    }
+
+    @Transaction()
+    public String readProcessStatus(Context ctx, String processAssetId, String collectionName) {
+        try {
+            if (assetExists(ctx, collectionName, processAssetId)) {
+                throw new RuntimeException("The asset does not exist.");
+            }
+            byte[] privateData = ctx.getStub().getPrivateData(collectionName, processAssetId);
+            ProcessAsset processAsset = genson.deserialize(privateData,ProcessAsset.class);
+            return processAsset.getStatus();
+        } catch (Exception e) {
+            System.out.println("=====ERROR===== " + e.toString() + " =====ERROR=====");
+            return e.toString();
+        }   
+    }
+
+    private ProcessAsset readProcessAsset(Context ctx, String processAssetId, String collectionName){
         byte[] privateData = ctx.getStub().getPrivateData(collectionName, processAssetId);
         ProcessAsset processAsset = genson.deserialize(privateData,ProcessAsset.class);
         return processAsset;
     }
+
+    private boolean assetExists(Context ctx, String collectionName, String assetId) {
+        byte[] buffer = ctx.getStub().getPrivateDataHash(collectionName, assetId);
+        return (buffer != null && buffer.length > 0);
+    }
 }
+ 

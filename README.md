@@ -1,7 +1,7 @@
 # student-benyak-bsc-dbrms
 BSc thesis project of Bence Benyák on distributed business rule execution over blockchain
 
-# Quick start
+## Quick start
 
 ```
 ./testMicroFab_START.sh
